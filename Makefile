@@ -182,6 +182,7 @@ LDFLAGS+=-fsanitize=undefined -fno-omit-frame-pointer
 endif
 ifdef CONFIG_WIN32
 LDEXPORT=
+LDFLAGS += -static -shared
 else
 LDEXPORT=-rdynamic
 endif
@@ -297,6 +298,9 @@ LTOEXT=.lto
 else
 LTOEXT=
 endif
+
+libquickjs.dll: $(QJS_LIB_OBJS)
+	$(CC)  $(LDFLAGS) -o $@ $^ $(LIBS)
 
 libquickjs$(LTOEXT).a: $(QJS_LIB_OBJS)
 	$(AR) rcs $@ $^
